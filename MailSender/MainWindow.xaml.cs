@@ -10,11 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-using System.Net;
-using System.Net.Mail;
 
 namespace MailSender
 {
@@ -28,38 +24,9 @@ namespace MailSender
             InitializeComponent();
         }
 
-        private void OnSendButtonClick(object sender, RoutedEventArgs e)
+        private void OnExitClick(object Sender, RoutedEventArgs E)
         {
-            var user_name = UserNameEdit.Text;
-            var password = PasswordEdit.SecurePassword;
-
-            try
-            {
-                using (var client = new SmtpClient("smtp.yandex.ru"))
-                {
-                    client.EnableSsl = true;
-                    client.Credentials = new NetworkCredential(user_name, password);
-
-                    using (var msg = new MailMessage("shmachilin@yandex.ru", "shmachilin@gmail.com"))
-                    {
-                        msg.Subject = $"Заголовок сообщения {DateTime.Now}";
-                        msg.Body = $"Тело сообщения {DateTime.Now}";
-                        msg.IsBodyHtml = false;
-
-                        client.Send(msg);
-                    }
-                }
-
-                MessageBox.Show("Почта отправлена!");
-            }
-            catch(Exception error)
-            {
-                MessageBox.Show(
-                    error.Message,
-                    "Ошибка в процессе отправки почты!", 
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
+            Close();
         }
     }
 }
