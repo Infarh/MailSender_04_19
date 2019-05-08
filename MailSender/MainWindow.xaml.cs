@@ -11,12 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MailSender.Components;
 
 namespace MailSender
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -27,6 +25,29 @@ namespace MailSender
         private void OnExitClick(object Sender, RoutedEventArgs E)
         {
             Close();
+        }
+
+        private void OnLeftButtonClick(object Sender, EventArgs E)
+        {
+            if (!(Sender is TabItemsControl tab_control)) return;
+
+            if (tab_control.LeftButtonVisible)
+                MainTabControl.SelectedIndex--;
+
+            tab_control.LeftButtonVisible = MainTabControl.SelectedIndex > 0;
+            tab_control.RightButtonVisible = MainTabControl.SelectedIndex < MainTabControl.Items.Count;
+        }
+
+        private void OnRightButtonClick(object Sender, EventArgs E)
+        {
+            if (!(Sender is TabItemsControl tab_control)) return;
+
+
+            if (tab_control.RightButtonVisible)
+                MainTabControl.SelectedIndex++;
+
+            tab_control.LeftButtonVisible = MainTabControl.SelectedIndex > 0;
+            tab_control.RightButtonVisible = MainTabControl.SelectedIndex < MainTabControl.Items.Count - 1;
         }
     }
 }
