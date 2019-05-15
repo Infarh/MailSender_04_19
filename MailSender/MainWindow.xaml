@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:local="clr-namespace:MailSender"
+        xmlns:l="clr-namespace:MailSender"
         xmlns:data="clr-namespace:MailSender.lib.Data;assembly=MailSender.lib"
         xmlns:linq2sql="clr-namespace:MailSender.lib.Data.Linq2SQL;assembly=MailSender.lib"
+        xmlns:v="clr-namespace:MailSender.View"
         xmlns:components="clr-namespace:MailSender.Components"
-        Title="MainWindow" 
+        xmlns:xctx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="{Binding Title}" 
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -30,7 +33,7 @@
                                             LeftButtonClick="OnLeftButtonClick"
                                             RightButtonClick="OnRightButtonClick"/>
             </StatusBarItem>
-            <TextBlock Text="Готов к труду и обороне!"/>
+            <TextBlock Text="{Binding Status}"/>
         </StatusBar>
         <TabControl Name="MainTabControl">
             <TabItem Header="Списки">
@@ -56,9 +59,6 @@
                         <ToolBar>
                             <TextBlock VerticalAlignment="Center" Margin="5,0" MinWidth="75">Отправители:</TextBlock>
                             <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Senders}">
-                                <!--<ComboBoxItem>Отправитель 1</ComboBoxItem>
-                                <ComboBoxItem>Отправитель 2</ComboBoxItem>
-                                <ComboBoxItem>Отправитель 3</ComboBoxItem>-->
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="data:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -68,34 +68,27 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
-                            <Button ToolTip="Создать">
-                                <Image Source="Media/add.png"/>
+                            <Button>
+                                <fa:ImageAwesome Icon="Plus" Foreground="DarkOrange"/>
                             </Button>
                             <Button>
-                                <Image Source="Media/edit.png"/>
+                                <fa:ImageAwesome Icon="Edit" Foreground="Blue"/>
                             </Button>
                             <Button>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="Media/remove.png"/>
-                                    <TextBlock Text="Удалить" Margin="3,0,0,0"/>    
-                                </StackPanel>
+                                <fa:ImageAwesome Icon="Remove" Foreground="Red"/>
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <TextBlock VerticalAlignment="Center" Margin="5,0" MinWidth="75" TextAlignment="Right">Сервера:</TextBlock>
-                            <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Servers}"
-                                      DisplayMemberPath="Address">
-                                <!--<ComboBoxItem>Сервер 1</ComboBoxItem>
-                                <ComboBoxItem>Сервер 2</ComboBoxItem>
-                                <ComboBoxItem>Сервер 3</ComboBoxItem>-->
-                                <!--<ComboBox.ItemTemplate>
+                            <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Servers}">
+                                <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type data:Server}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock Text="{Binding Address}" ToolTip="{Binding Port, StringFormat='Порт:{0}'}" Margin="3,0,0,0"/>
                                         </StackPanel>
                                     </DataTemplate>
-                                </ComboBox.ItemTemplate>-->
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
                                 <fa:ImageAwesome Icon="Plus" Foreground="DarkOrange"/>
@@ -126,23 +119,15 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <GroupBox Grid.Row="1" Margin="0,3,0,0" Header="Получатели писем">
-                        <GroupBox.Resources>
-                            <linq2sql:MailSenderDB x:Key="Database"/>    
-                        </GroupBox.Resources>
-                        <DataGrid AutoGenerateColumns="False" 
-                                  ItemsSource="{Binding Recipient, Source={StaticResource Database}}"
-                                  IsReadOnly="True" HeadersVisibility="Column" 
-                                  GridLinesVisibility="Vertical"
-                                  VerticalGridLinesBrush="DarkGray"
-                                  AlternatingRowBackground="LightCyan">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" MinWidth="40" Binding="{Binding Id}"/>
-                                <DataGridTextColumn Header="Имя" MinWidth="150" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="eMail" Width="*" Binding="{Binding Email}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </GroupBox>
+                    <Grid Grid.Row="1" Margin="0,3,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <v:RecipientsInfoView Grid.Column="0"/>
+                        <v:RecipientInfoEditor Grid.Column="1" Margin="10" VerticalAlignment="Top"/>
+                        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="3" Background="Transparent"/>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">
@@ -151,8 +136,9 @@
                         <TextBlock Margin="3,0">Дата:</TextBlock>
                         <Calendar></Calendar>
                         <DockPanel>
-                            <TextBlock Margin="3,0">Время:</TextBlock>
-                            <TextBox Text="Тут будет время"/>
+                            <TextBlock Margin="3,0" VerticalAlignment="Center">Время:</TextBlock>
+                            <!--<TextBox Text="Тут будет время"/>-->
+                            <xctx:TimePicker/>
                         </DockPanel>
                         <StackPanel Margin="5,10,5,0">
                             <StackPanel.Resources>
