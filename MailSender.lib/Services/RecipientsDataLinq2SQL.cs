@@ -21,5 +21,22 @@ namespace MailSender.lib.Services
         {
             return _db.Recipient.ToArray();
         }
+
+        public int Create(Recipient recipient)
+        {
+            if (recipient.Id != 0)
+                return recipient.Id;
+            _db.Recipient.InsertOnSubmit(recipient);
+            SaveChanges();
+            return recipient.Id;
+        }
+
+        public void Write(Recipient recipient)
+        {   
+            if(_db.Recipient.Contains(recipient)) return;
+            _db.Recipient.InsertOnSubmit(recipient);
+        }
+
+        public void SaveChanges() => _db.SubmitChanges();
     }
 }

@@ -91,6 +91,12 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\RecipientInfoEditor.xaml.cs">
+      <DependentUpon>RecipientInfoEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipientsInfoView.xaml.cs">
+      <DependentUpon>RecipientsInfoView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Components\TabItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +115,14 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\RecipientInfoEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipientsInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

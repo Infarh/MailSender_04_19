@@ -7,6 +7,7 @@
         xmlns:l="clr-namespace:MailSender"
         xmlns:data="clr-namespace:MailSender.lib.Data;assembly=MailSender.lib"
         xmlns:linq2sql="clr-namespace:MailSender.lib.Data.Linq2SQL;assembly=MailSender.lib"
+        xmlns:v="clr-namespace:MailSender.View"
         xmlns:components="clr-namespace:MailSender.Components"
         xmlns:xctx="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="{Binding Title}" 
@@ -118,20 +119,15 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <GroupBox Grid.Row="1" Margin="0,3,0,0" Header="Получатели писем">
-                       <DataGrid AutoGenerateColumns="False"
-                                 ItemsSource="{Binding Recipients}"
-                                  IsReadOnly="True" HeadersVisibility="Column" 
-                                  GridLinesVisibility="Vertical"
-                                  VerticalGridLinesBrush="DarkGray"
-                                  AlternatingRowBackground="LightCyan">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" MinWidth="40" Binding="{Binding Id}"/>
-                                <DataGridTextColumn Header="Имя" MinWidth="150" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="eMail" Width="*" Binding="{Binding Email}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </GroupBox>
+                    <Grid Grid.Row="1" Margin="0,3,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <v:RecipientsInfoView Grid.Column="0"/>
+                        <v:RecipientInfoEditor Grid.Column="1" Margin="10" VerticalAlignment="Top"/>
+                        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="3" Background="Transparent"/>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">

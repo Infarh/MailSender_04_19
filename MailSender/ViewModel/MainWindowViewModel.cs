@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.lib.Data.Linq2SQL;
 using MailSender.lib.Services.Interfaces;
 
@@ -38,12 +40,55 @@ namespace MailSender.ViewModel
             private set => Set(ref _Recipients, value);
         }
 
+        private Recipient _SelectedRecipient;
+
+        public Recipient SelectedRecipient
+        {
+            get => _SelectedRecipient;
+            set => Set(ref _SelectedRecipient, value);
+        }
+
+        #region Команды
+
+        public ICommand RefreshDataCommand { get; }
+        
+        public ICommand WriteRecipientDataCommand { get; }
+
+        public ICommand CreateNewRecipientCommand { get; }
+
+        #endregion
+
         public MainWindowViewModel(IRecipientsData RecipientsData)
         {
             _RecipientsData = RecipientsData;
 
-            LoadData();
+            RefreshDataCommand = new RelayCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute);
+            WriteRecipientDataCommand = new RelayCommand<Recipient>(OnWriteRecipientDataCommandExecuted, CanWriteRecipientDataCommandExecute);
+            CreateNewRecipientCommand = new RelayCommand(OnCreateNewRecipientCommandExecuted, CanCreateNewRecipientCommandExecute);
         }
+
+        private bool CanCreateNewRecipientCommandExecute() => true;
+
+        private void OnCreateNewRecipientCommandExecuted()
+        {
+            var new_recipient = new Recipient { Name = "Recipient", Email = "recipient@address.com" };
+            var id = _RecipientsData.Create(new_recipient);
+            if (id == 0) return;
+            Recipients.Add(new_recipient);
+            SelectedRecipient = new_recipient;
+        }
+
+        private bool CanWriteRecipientDataCommandExecute(Recipient recipient) => recipient != null;
+
+        private void OnWriteRecipientDataCommandExecuted(Recipient recipient)
+        {
+            _RecipientsData.Write(recipient);
+            _RecipientsData.SaveChanges();
+        }
+
+        private bool CanRefreshDataCommandExecute() => true;
+
+        private void OnRefreshDataCommandExecuted() => LoadData();
 
         private void LoadData()
         {
