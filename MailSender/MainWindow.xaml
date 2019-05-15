@@ -68,34 +68,31 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
-                            <Button ToolTip="Создать">
-                                <Image Source="Media/add.png"/>
+                            <Button>
+                                <fa:ImageAwesome Icon="Plus" Foreground="DarkOrange"/>
                             </Button>
                             <Button>
-                                <Image Source="Media/edit.png"/>
+                                <fa:ImageAwesome Icon="Edit" Foreground="Blue"/>
                             </Button>
                             <Button>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="Media/remove.png"/>
-                                    <TextBlock Text="Удалить" Margin="3,0,0,0"/>    
-                                </StackPanel>
+                                <fa:ImageAwesome Icon="Remove" Foreground="Red"/>
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <TextBlock VerticalAlignment="Center" Margin="5,0" MinWidth="75" TextAlignment="Right">Сервера:</TextBlock>
                             <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Servers}"
-                                      DisplayMemberPath="Address">
-                                <!--<ComboBoxItem>Сервер 1</ComboBoxItem>
+                                     >
+                                <ComboBoxItem>Сервер 1</ComboBoxItem>
                                 <ComboBoxItem>Сервер 2</ComboBoxItem>
-                                <ComboBoxItem>Сервер 3</ComboBoxItem>-->
-                                <!--<ComboBox.ItemTemplate>
+                                <ComboBoxItem>Сервер 3</ComboBoxItem>
+                                <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type data:Server}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock Text="{Binding Address}" ToolTip="{Binding Port, StringFormat='Порт:{0}'}" Margin="3,0,0,0"/>
                                         </StackPanel>
                                     </DataTemplate>
-                                </ComboBox.ItemTemplate>-->
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
                                 <fa:ImageAwesome Icon="Plus" Foreground="DarkOrange"/>
