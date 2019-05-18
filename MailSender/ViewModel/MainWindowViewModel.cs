@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -32,12 +34,35 @@ namespace MailSender.ViewModel
             set => Set(ref _Status, value);
         }
 
+        private CollectionViewSource _FiltredRecipientsSource;
+
+        private void OnRecipientsFiltred(object sender, FilterEventArgs e)
+        {
+            if(!(e.Item is Recipient recipient) || string.IsNullOrWhiteSpace(_RecipientNameFilterText)) return;
+
+            if (recipient.Name is null 
+                || recipient.Name.IndexOf(_RecipientNameFilterText, StringComparison.OrdinalIgnoreCase) < 0)
+                e.Accepted = false;
+        }
+
+        public ICollectionView FiltredRecipients => _FiltredRecipientsSource?.View;
+
         private ObservableCollection<Recipient> _Recipients;
 
         public ObservableCollection<Recipient> Recipients
         {
             get => _Recipients;
-            private set => Set(ref _Recipients, value);
+            private set
+            {
+                if (!Set(ref _Recipients, value)) return;
+
+                if (_FiltredRecipientsSource != null)
+                    _FiltredRecipientsSource.Filter -= OnRecipientsFiltred;
+                _FiltredRecipientsSource = new CollectionViewSource { Source = value };
+                _FiltredRecipientsSource.Filter += OnRecipientsFiltred;
+
+                RaisePropertyChanged(nameof(FiltredRecipients));
+            }
         }
 
         private Recipient _SelectedRecipient;
@@ -48,10 +73,22 @@ namespace MailSender.ViewModel
             set => Set(ref _SelectedRecipient, value);
         }
 
+        private string _RecipientNameFilterText;
+
+        public string RecipientNameFilterText
+        {
+            get => _RecipientNameFilterText;
+            set
+            {
+                if(!Set(ref _RecipientNameFilterText, value)) return;
+                _FiltredRecipientsSource?.View?.Refresh();
+            }
+        }
+
         #region Команды
 
         public ICommand RefreshDataCommand { get; }
-        
+
         public ICommand WriteRecipientDataCommand { get; }
 
         public ICommand CreateNewRecipientCommand { get; }
@@ -72,7 +109,7 @@ namespace MailSender.ViewModel
         private void OnCreateNewRecipientCommandExecuted()
         {
             var new_recipient = new Recipient { Name = "Recipient", Email = "recipient@address.com" };
-            var id = _RecipientsData.Create(new_recipient);
+            var id = _RecipientsData.Add(new_recipient);
             if (id == 0) return;
             Recipients.Add(new_recipient);
             SelectedRecipient = new_recipient;
@@ -82,7 +119,7 @@ namespace MailSender.ViewModel
 
         private void OnWriteRecipientDataCommandExecuted(Recipient recipient)
         {
-            _RecipientsData.Write(recipient);
+            _RecipientsData.Edit(recipient);
             _RecipientsData.SaveChanges();
         }
 

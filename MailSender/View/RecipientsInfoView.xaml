@@ -16,8 +16,40 @@
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,10,0,5">Получатели сообщений</TextBlock>
         <DockPanel DockPanel.Dock="Top" Margin="5,3">
-            <TextBlock>Поиск по имени:</TextBlock>
-            <TextBox/>
+            <TextBlock Margin="0,0,3,0">Поиск по имени:</TextBlock>
+            <TextBox Text="{Binding RecipientNameFilterText, UpdateSourceTrigger=PropertyChanged, Delay=100}">
+                <TextBox.Template>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                <TextBlock x:Name="PART_Wathermark" Margin="3,0" Text="Текст фильтра имени"
+                                           Foreground="Gray" Visibility="Collapsed"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsKeyboardFocusWithin" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Wathermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
         </DockPanel>
         <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,3" Padding="15,3"
                 Command="{Binding RefreshDataCommand}">
@@ -31,12 +63,15 @@
             </StackPanel>
         </Button>
         <DataGrid AutoGenerateColumns="False"
-                  ItemsSource="{Binding Recipients}"
+                  ItemsSource="{Binding FiltredRecipients}"
                   IsReadOnly="True" HeadersVisibility="Column" 
                   GridLinesVisibility="Vertical"
                   SelectedItem="{Binding SelectedRecipient}"
                   VerticalGridLinesBrush="DarkGray"
                   AlternatingRowBackground="LightCyan">
+            <DataGrid.ToolTip>
+                <ListBox ItemsSource="{Binding FiltredRecipients}"/>
+            </DataGrid.ToolTip>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" MinWidth="40" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Имя" MinWidth="150" Binding="{Binding Name}"/>
