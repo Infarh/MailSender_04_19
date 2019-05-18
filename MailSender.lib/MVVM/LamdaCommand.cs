@@ -12,7 +12,11 @@ namespace MailSender.lib.MVVM
         private readonly Action<object> _OnExecute;
         private readonly Func<object, bool> _CanExecute;
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
 
         public LamdaCommand(Action<object> OnExecute, Func<object, bool> CanExecute = null)
         {
