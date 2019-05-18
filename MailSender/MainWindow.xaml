@@ -10,9 +10,10 @@
         xmlns:v="clr-namespace:MailSender.View"
         xmlns:components="clr-namespace:MailSender.Components"
         xmlns:xctx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:entityes="clr-namespace:MailSender.lib.Entityes;assembly=MailSender.lib"
         Title="{Binding Title}" 
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
-        Height="450" Width="800">
+        Height="800" Width="1200">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -60,7 +61,7 @@
                             <TextBlock VerticalAlignment="Center" Margin="5,0" MinWidth="75">Отправители:</TextBlock>
                             <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Senders}">
                                 <ComboBox.ItemTemplate>
-                                    <DataTemplate DataType="data:Sender">
+                                    <DataTemplate DataType="entityes:Sender">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock Text="{Binding Email}" Opacity="0.6" Margin="3,0,0,0"/>
@@ -82,7 +83,7 @@
                             <TextBlock VerticalAlignment="Center" Margin="5,0" MinWidth="75" TextAlignment="Right">Сервера:</TextBlock>
                             <ComboBox Width="150" SelectedIndex="0" ItemsSource="{x:Static data:TestData.Servers}">
                                 <ComboBox.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type data:Server}">
+                                    <DataTemplate DataType="{x:Type entityes:Server}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock Text="{Binding Address}" ToolTip="{Binding Port, StringFormat='Порт:{0}'}" Margin="3,0,0,0"/>

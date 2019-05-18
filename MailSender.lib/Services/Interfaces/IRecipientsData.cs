@@ -7,14 +7,5 @@ using MailSender.lib.Data.Linq2SQL;
 
 namespace MailSender.lib.Services.Interfaces
 {
-    public interface IRecipientsData
-    {
-        IEnumerable<Recipient> GetAll();
-
-        int Create(Recipient recipient);
-
-        void Write(Recipient recipient);
-
-        void SaveChanges();
-    }
+    public interface IRecipientsData : IDataService<Recipient> { }
 }

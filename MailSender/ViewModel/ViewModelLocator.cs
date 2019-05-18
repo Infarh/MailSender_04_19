@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MailSender.lib.Data.Linq2SQL;
 using MailSender.lib.Services;
 using MailSender.lib.Services.Interfaces;
+using MailSender.lib.Services.Linq2SQL;
 
 //using Microsoft.Practices.ServiceLocation;
 

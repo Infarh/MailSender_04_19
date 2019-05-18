@@ -1,6 +1,8 @@
-﻿namespace MailSender.lib.Data
+﻿using MailSender.lib.Entityes.Base;
+
+namespace MailSender.lib.Entityes
 {
-    public class Server
+    public class Server : BaseEntity
     {
         public string Name { get; set; }
         public string Address { get; set; }
