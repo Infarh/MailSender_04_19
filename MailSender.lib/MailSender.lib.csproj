@@ -79,6 +79,7 @@
     <Compile Include="Services\InMemory\ServersDataInMemory.cs" />
     <Compile Include="Services\Interfaces\IDataService.cs" />
     <Compile Include="Services\Interfaces\IMailMessagesData.cs" />
+    <Compile Include="Services\Interfaces\IMailSenderService.cs" />
     <Compile Include="Services\Interfaces\IMailsListsData.cs" />
     <Compile Include="Services\Interfaces\IRecipientsData.cs" />
     <Compile Include="Services\Interfaces\IRecipientsListsData.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Services\Interfaces\ISendersData.cs" />
     <Compile Include="Services\Interfaces\IServersData.cs" />
     <Compile Include="Services\Linq2SQL\RecipientsDataLinq2SQL.cs" />
+    <Compile Include="Services\SmtpMailSenderService.cs" />
     <Compile Include="Services\StringEncoder.cs" />
   </ItemGroup>
   <ItemGroup>
