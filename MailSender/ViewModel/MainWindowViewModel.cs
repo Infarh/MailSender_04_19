@@ -17,6 +17,12 @@ namespace MailSender.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IRecipientsData _RecipientsData;
+        private readonly IRecipientsListsData _RecipientsListsData;
+        private readonly ISendersData _SendersData;
+        private readonly IMailMessagesData _MailMessagesData;
+        private readonly IMailsListsData _MailsListsData;
+        private readonly IServersData _ServersData;
+        private readonly ISchedulerTasksData _SchedulerTasksData;
 
         private string _Title = "Рассыльщик почты v1";
 
@@ -95,9 +101,22 @@ namespace MailSender.ViewModel
 
         #endregion
 
-        public MainWindowViewModel(IRecipientsData RecipientsData)
+        public MainWindowViewModel(
+            IRecipientsData RecipientsData,
+            IRecipientsListsData RecipientsListsData,
+            ISendersData SendersData,
+            IMailMessagesData MailMessagesData,
+            IMailsListsData MailsListsData,
+            IServersData ServersData,
+             ISchedulerTasksData SchedulerTasksData)
         {
             _RecipientsData = RecipientsData;
+            _RecipientsListsData = RecipientsListsData;
+            _SendersData = SendersData;
+            _MailMessagesData = MailMessagesData;
+            _MailsListsData = MailsListsData;
+            _ServersData = ServersData;
+            _SchedulerTasksData = SchedulerTasksData;
 
             RefreshDataCommand = new RelayCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute);
             WriteRecipientDataCommand = new RelayCommand<Recipient>(OnWriteRecipientDataCommandExecuted, CanWriteRecipientDataCommandExecute);
