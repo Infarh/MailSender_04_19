@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using MailSender.lib.Data.Linq2SQL;
+using MailSender.lib.Entityes;
 using MailSender.lib.Services.Interfaces;
 
 namespace MailSender.ViewModel

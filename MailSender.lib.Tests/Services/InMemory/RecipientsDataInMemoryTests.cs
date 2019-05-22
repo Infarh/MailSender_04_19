@@ -2,8 +2,8 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using MailSender.lib.Entityes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MailSender.lib.Data.Linq2SQL;
 using MailSender.lib.Services.InMemory;
 
 namespace MailSender.lib.Tests.Services.InMemory
