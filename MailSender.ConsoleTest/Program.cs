@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using System.Net;
-using System.Net.Mail;
-using System.Net.Mime;
 
 namespace MailSender.ConsoleTest
 {
@@ -14,6 +9,14 @@ namespace MailSender.ConsoleTest
     {
         static void Main(string[] args)
         {
+            //ThreadsTest.Start();
+            //ThreadPoolTest.Start();
+            //ConcurencyTest.Start();
+            ThreadManagment.Start();
+
+
+            lock (ConcurencyTest.SyncRoot)
+                Console.WriteLine("Нажмите Enter для выхода");
             Console.ReadLine();
         }
     }
