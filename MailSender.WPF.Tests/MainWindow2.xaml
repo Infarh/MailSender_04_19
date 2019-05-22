@@ -7,13 +7,9 @@
         mc:Ignorable="d"
         Title="{Binding TextProperty}" 
         Height="450" Width="800">
-    <Window.DataContext>
-        <local:MainWindow2ViewModel/>
-    </Window.DataContext>
+   
     <Grid>
-        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Width="120"
-                 Text="{Binding TextProperty, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40"
-                   Text="{Binding TextProperty}"/>
+       <TextBlock Name="TextValue" Text="Value" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3"/>
+       <Button Content="Start" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3,30" Padding="20,5" Click="ThreadStartClick"/>
     </Grid>
 </Window>
