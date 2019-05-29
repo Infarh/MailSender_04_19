@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -44,9 +40,9 @@ namespace MailSender.ViewModel
 
         private void OnRecipientsFiltred(object sender, FilterEventArgs e)
         {
-            if(!(e.Item is Recipient recipient) || string.IsNullOrWhiteSpace(_RecipientNameFilterText)) return;
+            if (!(e.Item is Recipient recipient) || string.IsNullOrWhiteSpace(_RecipientNameFilterText)) return;
 
-            if (recipient.Name is null 
+            if (recipient.Name is null
                 || recipient.Name.IndexOf(_RecipientNameFilterText, StringComparison.OrdinalIgnoreCase) < 0)
                 e.Accepted = false;
         }
@@ -86,10 +82,17 @@ namespace MailSender.ViewModel
             get => _RecipientNameFilterText;
             set
             {
-                if(!Set(ref _RecipientNameFilterText, value)) return;
+                if (!Set(ref _RecipientNameFilterText, value)) return;
                 _FiltredRecipientsSource?.View?.Refresh();
             }
         }
+
+        public ObservableCollection<RecipientsList> RecipientsLists { get; } = new ObservableCollection<RecipientsList>();
+        public ObservableCollection<Sender> Senders { get; } = new ObservableCollection<Sender>();
+        public ObservableCollection<MailMessage> MailMessages { get; } = new ObservableCollection<MailMessage>();
+        public ObservableCollection<MailsList> MailsLists { get; } = new ObservableCollection<MailsList>();
+        public ObservableCollection<Server> Servers { get; } = new ObservableCollection<Server>();
+        public ObservableCollection<SchedulerTask> SchedulerTasks { get; } = new ObservableCollection<SchedulerTask>();
 
         #region Команды
 
@@ -108,7 +111,7 @@ namespace MailSender.ViewModel
             IMailMessagesData MailMessagesData,
             IMailsListsData MailsListsData,
             IServersData ServersData,
-             ISchedulerTasksData SchedulerTasksData)
+            ISchedulerTasksData SchedulerTasksData)
         {
             _RecipientsData = RecipientsData;
             _RecipientsListsData = RecipientsListsData;
@@ -117,6 +120,8 @@ namespace MailSender.ViewModel
             _MailsListsData = MailsListsData;
             _ServersData = ServersData;
             _SchedulerTasksData = SchedulerTasksData;
+
+            Recipients = new ObservableCollection<Recipient>();
 
             RefreshDataCommand = new RelayCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute);
             WriteRecipientDataCommand = new RelayCommand<Recipient>(OnWriteRecipientDataCommandExecuted, CanWriteRecipientDataCommandExecute);
@@ -148,7 +153,20 @@ namespace MailSender.ViewModel
 
         private void LoadData()
         {
-            Recipients = new ObservableCollection<Recipient>(_RecipientsData.GetAll());
+            void LoadData<T>(ObservableCollection<T> collection, IDataService<T> service)
+            {
+                collection.Clear();
+                foreach (var item in service.GetAll())
+                    collection.Add(item);
+            }
+
+            LoadData(Recipients, _RecipientsData);
+            LoadData(RecipientsLists, _RecipientsListsData);
+            LoadData(Senders, _SendersData);
+            LoadData(Servers, _ServersData);
+            LoadData(MailMessages, _MailMessagesData);
+            LoadData(MailsLists, _MailsListsData);
+            LoadData(SchedulerTasks, _SchedulerTasksData);
         }
     }
 }
