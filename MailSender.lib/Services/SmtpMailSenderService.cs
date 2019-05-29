@@ -60,5 +60,23 @@ namespace MailSender.lib.Services
                 ThreadPool.QueueUserWorkItem(_ => Send(Message, From, recipient));
         }
 
+        public async Task SendAsync(MailMessage Message, Sender From, Recipient To)
+        {
+            using (var client = new SmtpClient(_Address, _Port) { Credentials = new NetworkCredential(_Login, _Password) })
+            using (var message = new System.Net.Mail.MailMessage())
+            {
+                message.From = new MailAddress(From.Email, From.Name);
+                message.To.Add(new MailAddress(To.Email, To.Name));
+                message.Subject = Message.Subject;
+                message.Body = Message.Body;
+
+                await client.SendMailAsync(message).ConfigureAwait(false);
+            }
+        }
+
+        public async Task SendAsync(MailMessage Message, Sender From, IEnumerable<Recipient> To)
+        {
+            await Task.WhenAll(To.Select(to => SendAsync(Message, From, to)));
+        }
     }
 }

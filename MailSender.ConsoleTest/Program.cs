@@ -12,7 +12,8 @@ namespace MailSender.ConsoleTest
         static void Main(string[] args)
         {
             //ParallelTest.Start();
-            TaskTest.Start();           
+            //TaskTest.Start();           
+            AsyncAwaitTest.Start();
 
 
             Console.WriteLine("Основной поток завершился. Нажмите Enter для выхода.");

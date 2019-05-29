@@ -11,5 +11,8 @@
     <Grid>
        <TextBlock Name="TextValue" Text="Value" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3"/>
        <Button Content="Start" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3,30" Padding="20,5" Click="ThreadStartClick"/>
+       <ProgressBar VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3,67,0,0" Width="150" Height="20"
+                    Minimum="0" Maximum="1" Name="ProgressBarInformer"/>
+       <Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30, 20" Click="OnCancelButtonClick">Отмена</Button>
     </Grid>
 </Window>
