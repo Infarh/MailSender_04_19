@@ -9,14 +9,7 @@ namespace MailSender.ConsoleTest
     {
         static void Main(string[] args)
         {
-            //ThreadsTest.Start();
-            //ThreadPoolTest.Start();
-            //ConcurencyTest.Start();
-            ThreadManagment.Start();
 
-
-            lock (ConcurencyTest.SyncRoot)
-                Console.WriteLine("Нажмите Enter для выхода");
             Console.ReadLine();
         }
     }
