@@ -4,6 +4,6 @@ namespace MailSender.lib.Entityes
 {
     public class Recipient : Human
     {
-        public string Description2 { get; set; }
+        public string Description { get; set; }
     }
 }
