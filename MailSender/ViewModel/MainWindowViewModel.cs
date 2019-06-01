@@ -19,6 +19,7 @@ namespace MailSender.ViewModel
         private readonly IMailsListsData _MailsListsData;
         private readonly IServersData _ServersData;
         private readonly ISchedulerTasksData _SchedulerTasksData;
+        private readonly IMailSenderService _MailSenderService;
 
         private string _Title = "Рассыльщик почты v1";
 
@@ -105,13 +106,14 @@ namespace MailSender.ViewModel
         #endregion
 
         public MainWindowViewModel(
-            IRecipientsData RecipientsData,
-            IRecipientsListsData RecipientsListsData,
-            ISendersData SendersData,
-            IMailMessagesData MailMessagesData,
-            IMailsListsData MailsListsData,
-            IServersData ServersData,
-            ISchedulerTasksData SchedulerTasksData)
+                IRecipientsData RecipientsData,
+                IRecipientsListsData RecipientsListsData,
+                ISendersData SendersData,
+                IMailMessagesData MailMessagesData,
+                IMailsListsData MailsListsData,
+                IServersData ServersData,
+                ISchedulerTasksData SchedulerTasksData,
+                IMailSenderService MailSenderService)
         {
             _RecipientsData = RecipientsData;
             _RecipientsListsData = RecipientsListsData;
@@ -120,6 +122,7 @@ namespace MailSender.ViewModel
             _MailsListsData = MailsListsData;
             _ServersData = ServersData;
             _SchedulerTasksData = SchedulerTasksData;
+            _MailSenderService = MailSenderService;
 
             Recipients = new ObservableCollection<Recipient>();
 
