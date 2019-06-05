@@ -85,6 +85,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\EF\DataInEF.cs" />
+    <Compile Include="Services\EF\SendersDataInEF.cs" />
     <Compile Include="Services\InMemory\DataInMemory.cs" />
     <Compile Include="Services\InMemory\MailMessagesDataInMemory.cs" />
     <Compile Include="Services\InMemory\MailsListDataInMemory.cs" />
